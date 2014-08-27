@@ -5,7 +5,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var sourcemaps = require('gulp-sourcemaps');
-var sourcemaps = require('gulp-jade');
+var jade = require('gulp-jade');
 var del = require('del');
 
 var paths = {
