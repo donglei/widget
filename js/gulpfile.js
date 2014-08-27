@@ -53,7 +53,7 @@ gulp.task('jade', function(){
 		.pipe(gulp.dest('build/jade'));
 });
 gulp.task('sass', function () {
-    gulp.src(paths.jades)
+    gulp.src(paths.sass)
         .pipe(sass())
         .pipe(prettify({indent_size: 2}))
         .pipe(gulp.dest('build/css'));
