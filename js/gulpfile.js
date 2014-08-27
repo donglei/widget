@@ -1,4 +1,4 @@
-// npm install gulp gulp-coffee gulp-concat gulp-uglify gulp-imagemin gulp-sourcemaps del gulp-jade
+// npm install gulp gulp-coffee gulp-concat gulp-uglify gulp-imagemin gulp-sourcemaps del gulp-jade gulp-prettify gulp-sass
 var gulp = require('gulp');
 var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
@@ -6,12 +6,15 @@ var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var sourcemaps = require('gulp-sourcemaps');
 var jade = require('gulp-jade');
+var prettify = require('gulp-prettify');
+var sass = require('gulp-sass');
 var del = require('del');
 
 var paths = {
   scripts: ['coffee/**/*.coffee', '!/external/**/*.coffee', 'coffee/*.coffee'],
   images: 'img/**/*',
-  jades:['jade/*.jade']
+  jades:['jade/*.jade'],
+  sass:['sass/*.sass']
 };
 
 // Not all tasks need to use streams
@@ -44,18 +47,25 @@ gulp.task('images', ['clean'], function() {
 gulp.task('jade', function(){
 	return gulp.src(paths.jades)
 		.pipe(jade({
-		  locals: 'build/jade'
+		  //locals: 'build/jade'
 		}))
+		.pipe(prettify({indent_size: 2}))
 		.pipe(gulp.dest('build/jade'));
 });
-
+gulp.task('sass', function () {
+    gulp.src(paths.jades)
+        .pipe(sass())
+        .pipe(prettify({indent_size: 2}))
+        .pipe(gulp.dest('build/css'));
+});
 // Rerun the task when a file changes
 gulp.task('watch', function() {
   gulp.watch(paths.scripts, ['scripts']);
   gulp.watch(paths.images, ['images']);
   gulp.watch(paths.jades, ['jade']);
+  gulp.watch(paths.sass, ['sass']);
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['watch', 'scripts', 'images', 'jade']);
+gulp.task('default', ['watch', 'scripts', 'images', 'jade', 'sass']);
 
